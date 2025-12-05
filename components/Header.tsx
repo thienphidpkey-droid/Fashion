@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ShoppingBag, Search } from 'lucide-react';
 import { NAV_LINKS } from '../constants';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,28 +16,45 @@ const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Check if link is active
+  const isActive = (path: string) => location.pathname === path;
+
   return (
-    <header 
-      className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-lumiere-cream/90 backdrop-blur-md shadow-sm py-4' : 'bg-transparent py-6'
-      }`}
+    <header
+      className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-lumiere-cream/90 backdrop-blur-md shadow-sm py-4' : 'bg-transparent py-6'
+        }`}
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
         {/* Logo */}
-        <div className="text-2xl font-serif font-bold tracking-widest text-lumiere-green">
+        <Link to="/" className="text-2xl font-serif font-bold tracking-widest text-lumiere-green hover:text-lumiere-dark transition-colors">
           LUMIÈRE
-        </div>
+        </Link>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex space-x-8">
           {NAV_LINKS.map((link) => (
-            <a 
-              key={link.name} 
-              href={link.href} 
-              className="text-stone-600 hover:text-lumiere-green uppercase text-xs tracking-widest font-medium transition-colors"
-            >
-              {link.name}
-            </a>
+            <div key={link.name} className="dropdown group relative">
+              <Link
+                to={link.href}
+                className={`uppercase text-xs tracking-widest font-medium transition-colors ${isActive(link.href) ? 'text-lumiere-green font-bold' : 'text-stone-600 hover:text-lumiere-green'
+                  }`}
+              >
+                {link.name}
+              </Link>
+              {link.submenu && link.submenu.length > 0 && (
+                <div className="dropdown-menu absolute top-full left-0 bg-white shadow-lg rounded-lg py-2 min-w-[200px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                  {link.submenu.map((item) => (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      className="block px-4 py-2 text-sm text-stone-600 hover:bg-gray-50 hover:text-lumiere-green transition-colors"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           ))}
         </nav>
 
@@ -48,7 +67,7 @@ const Header: React.FC = () => {
             <ShoppingBag size={20} strokeWidth={1.5} />
             <span className="absolute -top-1 -right-1 bg-lumiere-green text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
           </button>
-          <button 
+          <button
             className="md:hidden text-stone-600"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
@@ -59,16 +78,31 @@ const Header: React.FC = () => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-lumiere-cream border-t border-stone-200 py-4 px-6 flex flex-col space-y-4 shadow-lg">
+        <div className="md:hidden absolute top-full left-0 w-full bg-lumiere-cream border-t border-stone-200 py-4 px-6 shadow-lg max-h-96 overflow-y-auto">
           {NAV_LINKS.map((link) => (
-            <a 
-              key={link.name} 
-              href={link.href} 
-              className="text-stone-800 uppercase text-sm tracking-widest py-2"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              {link.name}
-            </a>
+            <div key={link.name} className="mb-3">
+              <Link
+                to={link.href}
+                className="text-stone-800 uppercase text-sm tracking-widest py-2 block font-semibold"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {link.name}
+              </Link>
+              {link.submenu && link.submenu.length > 0 && (
+                <div className="pl-4 mt-2 space-y-2">
+                  {link.submenu.map((item) => (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      className="block text-stone-600 text-sm py-1"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           ))}
         </div>
       )}

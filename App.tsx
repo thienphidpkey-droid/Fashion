@@ -1,29 +1,21 @@
 import React from 'react';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import BrandIntro from './components/BrandIntro';
-import FeaturedProducts from './components/FeaturedProducts';
-import NewArrivals from './components/NewArrivals';
-import Reviews from './components/Reviews';
-import CTA from './components/CTA';
-import Footer from './components/Footer';
-import AIAssistant from './components/AIAssistant';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ProductProvider } from './context/ProductContext';
+import HomePage from './pages/HomePage';
+import AdminPage from './pages/AdminPage';
+import CategoryPage from './pages/CategoryPage';
 
 const App: React.FC = () => {
   return (
-    <div className="min-h-screen relative overflow-x-hidden selection:bg-lumiere-green selection:text-white">
-      <Header />
-      <main>
-        <Hero />
-        <BrandIntro />
-        <FeaturedProducts />
-        <NewArrivals />
-        <Reviews />
-        <CTA />
-      </main>
-      <Footer />
-      <AIAssistant />
-    </div>
+    <ProductProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/category/:slug" element={<CategoryPage />} />
+        </Routes>
+      </Router>
+    </ProductProvider>
   );
 };
 
