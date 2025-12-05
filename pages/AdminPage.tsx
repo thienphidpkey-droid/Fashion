@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useProducts } from '../context/ProductContext';
 import { Product } from '../types';
 import { Save, Search, Plus, X } from 'lucide-react';
@@ -74,6 +75,10 @@ const AdminPage: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-gray-50 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+            <Helmet>
+                <title>Admin Dashboard | LUMIÈRE</title>
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <div className="max-w-7xl mx-auto">
                 <div className="flex justify-between items-center mb-8">
                     <h1 className="text-3xl font-bold text-gray-900">Quản Lý Sản Phẩm</h1>

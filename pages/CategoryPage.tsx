@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { useProducts } from '../context/ProductContext';
 import ProductModal from '../components/ProductModal';
 import Header from '../components/Header';
@@ -28,6 +29,10 @@ const CategoryPage: React.FC = () => {
     if (!categoryProducts || categoryProducts.length === 0) {
         return (
             <div className="min-h-screen flex flex-col">
+                <Helmet>
+                    <title>Not Found | LUMIÈRE</title>
+                    <meta name="robots" content="noindex" />
+                </Helmet>
                 <Header />
                 <div className="flex-1 flex items-center justify-center">
                     <div className="text-center">
@@ -44,6 +49,10 @@ const CategoryPage: React.FC = () => {
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-50">
+            <Helmet>
+                <title>{title} | LUMIÈRE Fashion</title>
+                <meta name="description" content={`Explore our exclusive collection of ${title} at LUMIÈRE. High quality, trendy, and stylish options for you.`} />
+            </Helmet>
             <Header />
             <main className="flex-1 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto">

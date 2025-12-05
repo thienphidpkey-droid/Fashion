@@ -1,11 +1,11 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import Header from '../components/Header';
 import ProductSection from '../components/ProductSection';
 import Footer from '../components/Footer';
 import AIAssistant from '../components/AIAssistant';
 import FloatingMenu from '../components/FloatingMenu';
 import { useProducts } from '../context/ProductContext';
-import { BANNER_IMAGES } from '../constants';
 
 const HomePage: React.FC = () => {
     const { products } = useProducts();
@@ -15,6 +15,15 @@ const HomePage: React.FC = () => {
 
     return (
         <div className="min-h-screen relative overflow-x-hidden selection:bg-lumiere-green selection:text-white">
+            <Helmet>
+                <title>LUMIÈRE | Luxury Fashion & Lifestyle</title>
+                <meta name="description" content="Discover the latest trends in luxury fashion at LUMIÈRE. Shop our exclusive collections of women's, men's, and kids' wear." />
+                <meta name="keywords" content="fashion, luxury, clothing, style, trendy, women's fashion, men's fashion, kids fashion" />
+                <meta property="og:title" content="LUMIÈRE | Luxury Fashion & Lifestyle" />
+                <meta property="og:description" content="Discover the latest trends in luxury fashion at LUMIÈRE." />
+                <meta property="og:type" content="website" />
+            </Helmet>
+
             <Header />
             <FloatingMenu />
             <main className="pt-24">
