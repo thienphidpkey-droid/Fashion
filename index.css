@@ -44,6 +44,7 @@ body {
   /* Hidden initially */
   transform: translateY(30px);
   /* Initial state for animation */
+  will-change: opacity, transform;
 }
 
 /* Animations */

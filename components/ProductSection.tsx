@@ -57,16 +57,28 @@ const ProductSection: React.FC<ProductSectionProps> = ({
             },
             {
                 root: null,
-                rootMargin: '0px',
-                threshold: 0.1, // Trigger when 10% of the item is visible
+                rootMargin: '50px', // Increased margin to trigger earlier
+                threshold: 0.1,
             }
         );
 
         const items = sectionRef.current?.querySelectorAll('.product-card');
         items?.forEach((item) => observer.observe(item));
 
+        // Safety fallback: Ensure all items are visible after 2 seconds
+        const timeout = setTimeout(() => {
+            if (products.length > 0) {
+                setVisibleItems(prev => {
+                    const newSet = new Set(prev);
+                    products.forEach(p => newSet.add(p.id));
+                    return newSet;
+                });
+            }
+        }, 2000);
+
         return () => {
             items?.forEach((item) => observer.unobserve(item));
+            clearTimeout(timeout);
         };
     }, [products]);
 
