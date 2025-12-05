@@ -33,7 +33,7 @@ const Header: React.FC = () => {
         {/* Desktop Nav */}
         <nav className="hidden md:flex space-x-8">
           {NAV_LINKS.map((link) => (
-            <div key={link.name} className="dropdown group relative">
+            <div key={link.name} className="group relative py-4">
               <Link
                 to={link.href}
                 className={`uppercase text-xs tracking-widest font-medium transition-colors ${isActive(link.href) ? 'text-lumiere-green font-bold' : 'text-stone-600 hover:text-lumiere-green'
@@ -41,15 +41,17 @@ const Header: React.FC = () => {
               >
                 {link.name}
               </Link>
-              {link.submenu && link.submenu.length > 0 && (
-                <div className="dropdown-menu absolute top-full left-0 bg-white shadow-lg rounded-lg py-2 min-w-[200px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                  {link.submenu.map((item) => (
+
+              {/* Dropdown Menu */}
+              {link.submenu && (
+                <div className="absolute top-full left-0 w-48 bg-white shadow-lg rounded-md py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                  {link.submenu.map((subItem) => (
                     <Link
-                      key={item.name}
-                      to={item.href}
-                      className="block px-4 py-2 text-sm text-stone-600 hover:bg-gray-50 hover:text-lumiere-green transition-colors"
+                      key={subItem.name}
+                      to={subItem.href}
+                      className="block px-4 py-2 text-sm text-stone-600 hover:text-lumiere-green hover:bg-stone-50 transition-colors"
                     >
-                      {item.name}
+                      {subItem.name}
                     </Link>
                   ))}
                 </div>
@@ -59,7 +61,7 @@ const Header: React.FC = () => {
         </nav>
 
         {/* Icons */}
-        <div className="flex items-center space-x-6">
+        < div className="flex items-center space-x-6" >
           <button className="text-stone-600 hover:text-lumiere-green transition-colors">
             <Search size={20} strokeWidth={1.5} />
           </button>
@@ -77,36 +79,38 @@ const Header: React.FC = () => {
       </div>
 
       {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-lumiere-cream border-t border-stone-200 py-4 px-6 shadow-lg max-h-96 overflow-y-auto">
-          {NAV_LINKS.map((link) => (
-            <div key={link.name} className="mb-3">
-              <Link
-                to={link.href}
-                className="text-stone-800 uppercase text-sm tracking-widest py-2 block font-semibold"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {link.name}
-              </Link>
-              {link.submenu && link.submenu.length > 0 && (
-                <div className="pl-4 mt-2 space-y-2">
-                  {link.submenu.map((item) => (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      className="block text-stone-600 text-sm py-1"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-    </header>
+      {
+        mobileMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 w-full bg-lumiere-cream border-t border-stone-200 py-4 px-6 shadow-lg max-h-96 overflow-y-auto">
+            {NAV_LINKS.map((link) => (
+              <div key={link.name} className="mb-3">
+                <Link
+                  to={link.href}
+                  className="text-stone-800 uppercase text-sm tracking-widest py-2 block font-semibold"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {link.name}
+                </Link>
+                {link.submenu && link.submenu.length > 0 && (
+                  <div className="pl-4 mt-2 space-y-2">
+                    {link.submenu.map((item) => (
+                      <Link
+                        key={item.name}
+                        to={item.href}
+                        className="block text-stone-600 text-sm py-1"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )
+      }
+    </header >
   );
 };
 
