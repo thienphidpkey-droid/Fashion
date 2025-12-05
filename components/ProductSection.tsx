@@ -25,16 +25,22 @@ const ProductSection: React.FC<ProductSectionProps> = ({
     const sectionRef = useRef<HTMLElement>(null);
     const [visibleItems, setVisibleItems] = useState<Set<string>>(new Set());
 
-    // Randomize card sizes
+    // Randomize card sizes with better distribution for "masonry" look
     const getRandomSize = (index: number): string => {
-        const sizes = ['size-small', 'size-small', 'size-small', 'size-medium', 'size-large'];
-        const seed = (index * 7 + 13) % sizes.length;
-        return sizes[seed];
+        // Pattern: Large, Small, Small, Medium, Small, Large, Medium, Small...
+        // This ensures gaps are filled better than pure random
+        const patterns = [
+            'size-large', 'size-small', 'size-small', 'size-medium',
+            'size-small', 'size-large', 'size-medium', 'size-small',
+            'size-medium', 'size-small', 'size-small', 'size-medium'
+        ];
+        return patterns[index % patterns.length];
     };
 
     // Randomize animation
     const getRandomAnimation = (index: number): string => {
-        return index % 2 === 0 ? 'animate-fade-in' : 'animate-run-in';
+        const animations = ['animate-fade-in', 'animate-run-in', 'animate-scale-up'];
+        return animations[index % animations.length];
     };
 
     useEffect(() => {

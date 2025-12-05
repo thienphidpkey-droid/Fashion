@@ -81,23 +81,23 @@ const Header: React.FC = () => {
       {/* Mobile Menu */}
       {
         mobileMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 w-full bg-lumiere-cream border-t border-stone-200 py-4 px-6 shadow-lg max-h-96 overflow-y-auto">
+          <div className="md:hidden absolute top-full left-0 w-full bg-lumiere-cream border-t border-stone-200 py-4 px-6 shadow-lg max-h-[80vh] overflow-y-auto">
             {NAV_LINKS.map((link) => (
-              <div key={link.name} className="mb-3">
+              <div key={link.name} className="mb-4 border-b border-stone-100 last:border-0 pb-2">
                 <Link
                   to={link.href}
-                  className="text-stone-800 uppercase text-sm tracking-widest py-2 block font-semibold"
+                  className="text-stone-800 uppercase text-sm tracking-widest py-2 block font-bold hover:text-lumiere-green transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {link.name}
                 </Link>
                 {link.submenu && link.submenu.length > 0 && (
-                  <div className="pl-4 mt-2 space-y-2">
+                  <div className="pl-4 mt-1 space-y-2 border-l-2 border-stone-200">
                     {link.submenu.map((item) => (
                       <Link
                         key={item.name}
                         to={item.href}
-                        className="block text-stone-600 text-sm py-1"
+                        className="block text-stone-600 text-sm py-1.5 hover:text-lumiere-green transition-colors"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {item.name}
